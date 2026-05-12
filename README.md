@@ -1,2 +1,2 @@
 # rubithon
-A library for creating bots in the Rubika messenger
+A modern, asynchronous Python library for building Rubika bots, inspired by Balethon.
