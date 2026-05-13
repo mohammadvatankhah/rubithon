@@ -96,8 +96,8 @@ class Dispatcher:
                 if isinstance(event, child.can_handle) or is_subclass(event, child.can_handle):
                     try:
                         await child.handle(client=client, event=event)
-                    except Exception:
-                        pass
+                    except Exception as error:
+                        await self.dispatch_event(client, error)
                     break
 
         for sub_chain in chain.chains:

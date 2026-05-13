@@ -1,3 +1,5 @@
+from traceback import print_exception
+
 from .chain import Chain
 
 
@@ -8,6 +10,10 @@ class PrintingChain(Chain):
         name: str = "printing"
     ):
         super().__init__(name)
+
+    @Chain.error_handler()
+    def print_error(self, error):
+        print_exception(None, error, error.__traceback__)
 
     @Chain.initialize_handler()
     def print_ready(self, client):
