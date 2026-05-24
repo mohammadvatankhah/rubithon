@@ -1,7 +1,6 @@
 from typing import List
 
 from rubithon import models
-
 from .model import Model
 
 

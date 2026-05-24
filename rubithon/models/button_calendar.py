@@ -1,7 +1,6 @@
 from typing import Optional
 
 from rubithon import enums
-
 from .model import Model
 
 

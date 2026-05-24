@@ -1,7 +1,6 @@
 from typing import List
 
 import rubithon
-
 from ..models import NewMessage
 
 

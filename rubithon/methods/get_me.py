@@ -1,5 +1,4 @@
 import rubithon
-
 from ..models import Bot
 
 

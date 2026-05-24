@@ -2,7 +2,6 @@ from typing import Optional
 
 import rubithon
 from rubithon import enums, models
-
 from ..models import NewMessage
 
 

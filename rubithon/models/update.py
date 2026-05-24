@@ -1,7 +1,6 @@
 from typing import Optional
 
 from rubithon import enums, models
-
 from ..enums import UpdateType
 from .chat import Chat
 from .model import Model

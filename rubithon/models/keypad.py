@@ -2,7 +2,6 @@ from copy import deepcopy
 from typing import List, Optional
 
 from rubithon import models
-
 from .keypad_row import KeypadRow
 from .list import List as RubithonList
 from .model import Model

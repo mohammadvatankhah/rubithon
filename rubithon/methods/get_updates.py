@@ -1,7 +1,6 @@
 from typing import Optional
 
 import rubithon
-
 from ..models import Updates
 
 

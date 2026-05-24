@@ -12,8 +12,8 @@ from typing import (
 from time import time
 
 import aiohttp
-from rubithon import enums, models
 
+from rubithon import enums, models
 from .dispatcher import Chain, Dispatcher, PrintingChain
 from .errors import TooManyRequestsError
 from .event_handlers import (
@@ -24,7 +24,7 @@ from .event_handlers import (
 )
 from .methods import Methods
 from .models import Model, unwrap, wrap
-from .network.httpconnection import HTTPConnection
+from .network import HTTPConnection
 
 
 class Client(Chain, Methods):

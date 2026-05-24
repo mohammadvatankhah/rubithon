@@ -1,8 +1,8 @@
 from typing import Optional
 
 from rubithon import enums, models
-
 from .model import Model
+
 
 class Chat(Model):
     attribute_names = [

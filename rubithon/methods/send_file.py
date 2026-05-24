@@ -3,7 +3,6 @@ from typing import Optional, Union
 
 import rubithon
 from rubithon import enums, models
-
 from ..models import NewMessage
 
 
