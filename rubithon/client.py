@@ -15,7 +15,7 @@ import aiohttp
 
 from rubithon import enums, models
 from .dispatcher import Chain, Dispatcher, PrintingChain
-from .errors import TooManyRequestsError
+from .errors import TooRequestsError
 from .event_handlers import (
     ConnectHandler,
     DisconnectHandler,
@@ -101,7 +101,7 @@ class Client(Chain, Methods):
         while retries <= self.max_retries:
             try:
                 return await self._http_connection.request(service, json=data)
-            except TooManyRequestsError as error:
+            except TooRequestsError as error:
                 retries += 1
                 if retries > self.max_retries:
                     raise error
@@ -206,8 +206,8 @@ class Client(Chain, Methods):
             loop.run_until_complete(self.disconnect())
 
     async def download(self, file_id: str):
-        download_url = await self.get_file(file_id)
-        return await self._http_connection.download_file(download_url)
+        url = await self.get_file(file_id)
+        return await self._http_connection.download_file(url)
 
     async def upload(
         self,
@@ -215,5 +215,5 @@ class Client(Chain, Methods):
         file_name: Optional[str] = None,
         file_type: "enums.FileType" = enums.FileType.FILE,
     ):
-        upload_url = await self.request_send_file(file_type)
-        return await self._http_connection.upload_file(upload_url, file, file_name)
+        url = await self.request_send_file(file_type)
+        return await self._http_connection.upload_file(url, file, file_name)

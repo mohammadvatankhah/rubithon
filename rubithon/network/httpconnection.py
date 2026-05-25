@@ -6,7 +6,7 @@ from typing import Optional, Union
 
 import aiohttp
 
-from ..errors import RPCError
+from ..errors import RubikaError
 
 log = logging.getLogger(__name__)
 
@@ -63,24 +63,33 @@ class HTTPConnection:
         log.info(f"[{service}] JSON: {json}")
 
         response = await self.client.post(url, json=json)
-        response_json = await response.json()
+        result = await response.json()
 
-        status = response_json.get("status")
+        status = result.get("status")
         if status != "OK":
-            dev_message = response_json.get("dev_message")
-            raise RPCError.create(status, dev_message, service)
+            raise RubikaError.create(
+                status=status,
+                dev_message=result.get("dev_message"),
+                reason=service
+            )
 
-        return response_json.get("data")
+        return result.get("data")
 
     async def download_file(self, url: str):
-        buffer = BytesIO()
-
         async with self.client.get(url) as response:
-            response.raise_for_status()
+            if response.content_type == "application/json":
+                result = await response.json()
+                raise RubikaError.create(
+                    status=result.get("status"),
+                    dev_message=result.get("dev_message"),
+                    reason="downloadFile"
+                )
+
+            buffer = BytesIO()
             async for chunk in response.content.iter_chunked(8_192):
                 buffer.write(chunk)
 
-        return buffer.getvalue()
+            return buffer.getvalue()
 
     async def upload_file(
         self,
@@ -104,7 +113,14 @@ class HTTPConnection:
         )
 
         async with self.client.post(url, data=form) as response:
-            response.raise_for_status()
             result = await response.json()
 
-        return result.get("file_id")
+            status = result.get("status")
+            if status != "OK":
+                raise RubikaError.create(
+                    status=status,
+                    dev_message=result.get("dev_message"),
+                    reason="uploadFile"
+                )
+
+            return result.get("file_id")
