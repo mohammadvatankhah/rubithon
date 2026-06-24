@@ -141,8 +141,7 @@ class Message(Model):
 
     async def reply_file(
         self,
-        file_id: Optional[str] = None,
-        file: Optional[Union[str, Path, bytes]] = None,
+        file: Union[str, Path, bytes],
         file_type: Optional["enums.FileType"] =  enums.FileType.FILE,
         text: Optional[str] = None,
         inline_keypad: Optional["models.Keypad"] = None,
@@ -152,7 +151,6 @@ class Message(Model):
     ):
         return await self.client.send_file(
             self.chat.id,
-            file_id,
             file,
             file_type,
             text,

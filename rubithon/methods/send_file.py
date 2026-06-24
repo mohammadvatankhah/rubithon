@@ -11,8 +11,7 @@ class SendFile:
     async def send_file(
         self: "rubithon.Client",
         chat_id: str,
-        file_id: Optional[str] = None,
-        file: Optional[Union[str, Path, bytes]] = None,
+        file: Union[str, Path, bytes],
         file_type: Optional["enums.FileType"] = enums.FileType.FILE,
         file_name: Optional[str] = None,
         text: Optional[str] = None,
@@ -22,10 +21,10 @@ class SendFile:
         reply_to_message_id: Optional[str] = None,
         disable_notification: bool = False
     ) -> NewMessage:
-        if file_id is None:
-            if file is None:
-                raise ValueError("Either \"file_id\" or \"file\" must be provided")
+        if isinstance(file, bytes) or Path(file).is_file():
             file_id = await self.upload(file, file_name, file_type)
+        else:
+            file_id = file
 
         del file
         del file_type
